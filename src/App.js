@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-function App() {
+import { Switch, Route, Redirect } from "react-router-dom";
+
+import Layout from "./containers/Layout/Layout";
+import Search from "./containers/Search/Search";
+import Saved from "./containers/Saved/Saved";
+// import Auth from "./containers/Auth/Auth";
+
+function App(props) {
+  let routes = (
+    <Switch>
+      <Route path="/saved" component={Saved} />
+      <Route path="/" exact component={Search} />
+      <Redirect to="/" />
+    </Switch>
+  );
+
+  // if (!props.logged) {
+  //   routes = (
+  //     <Switch>
+  //       <Route to="/login" component={Auth} />
+  //       <Redirect to="/login" component={Auth} />
+  //     </Switch>
+  //   );
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Switch>{routes}</Switch>
+    </Layout>
   );
 }
 
