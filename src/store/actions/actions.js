@@ -1,6 +1,14 @@
 import * as actionTypes from "../constants";
 import axios from "axios";
 
+import { fetchBooksUrl } from "../../assets/constants";
+
+export const fetchBooksStart = () => {
+  return {
+    type: actionTypes.FETCH_BOOKS_START,
+  };
+};
+
 export const fetchBooksFailure = (err) => {
   return {
     type: actionTypes.FETCH_BOOKS_FAILURE,
@@ -8,19 +16,23 @@ export const fetchBooksFailure = (err) => {
   };
 };
 
-export const fetchBooksSuccess = (books) => {
+export const fetchBooksSuccess = (books, query) => {
   return {
     type: actionTypes.FETCH_BOOKS_SUCCESS,
-    payload: books,
+    payload: {
+      books,
+      query,
+    },
   };
 };
 
 export const fetchBooks = (payload) => {
   return async (dispatch) => {
+    dispatch(fetchBooksStart());
     axios
-      .get("https://www.googleapis.com/books/v1/volumes?q=" + payload)
+      .get(fetchBooksUrl + payload)
       .then((res) => {
-        dispatch(fetchBooksSuccess(res.items));
+        dispatch(fetchBooksSuccess(res.data.items, payload));
       })
       .catch((err) => {
         dispatch(fetchBooksFailure(err));

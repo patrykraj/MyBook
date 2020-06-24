@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import classes from "./Form.module.css";
+
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/actions";
 
 const Form = (props) => {
   const [error, setError] = useState(false);
@@ -14,19 +18,31 @@ const Form = (props) => {
       return;
     }
 
-    props.sendRequest(searchedBook);
+    console.log("FETCH", props);
+
+    props.onFetchBooks(query);
+
+    // props.history.push({
+    //   pathname: "/",
+    //   search: "books&search=" + query,
+    // });
+
+    // props.sendRequest(searchedBook);
     setSearchedBook("");
   };
 
   return (
     <form onSubmit={handleSendRequest}>
+      <button type="submit" className={classes.FormElement}>
+        KLIK
+      </button>
       <input
         type="text"
         placeholder="search"
+        className={classes.FormElement}
         onChange={(e) => setSearchedBook(e.target.value)}
         value={searchedBook}
       />
-      <button type="submit">KLIK</button>
       {error && !props.isLoading && (
         <span
           style={{
@@ -40,4 +56,10 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchBooks: (payload) => dispatch(actions.fetchBooks(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Form);

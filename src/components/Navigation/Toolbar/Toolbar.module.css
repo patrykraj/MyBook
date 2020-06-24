@@ -1,9 +1,6 @@
-.Header {
-  position: fixed;
-  width: 100%;
-  padding: 0 1rem;
-  height: 57px;
-  background-color: #ff6700;
+.ToolbarContainer {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .NavWrapper {

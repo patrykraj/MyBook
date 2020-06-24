@@ -18,8 +18,11 @@ const Book = (props) => {
         ></img>
       </div>
       <div>
-        {book.volumeInfo.title},{"\n Written by "}
-        {book.volumeInfo.authors}, {book.volumeInfo.publishedDate}
+        <p>{book.volumeInfo.title}</p>
+        <p>
+          {"\n Written by"} {book.volumeInfo.authors}
+        </p>
+        <p>{book.volumeInfo.publishedDate}</p>
       </div>
       <div>
         <button>KLIK</button>

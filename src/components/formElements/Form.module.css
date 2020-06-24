@@ -1,0 +1,28 @@
+.FormElement {
+  padding: 1rem 2rem;
+  font-size: 0.85rem;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  float: right;
+  transition: all 0.5s;
+}
+
+button.FormElement {
+  color: #ff6700;
+  cursor: pointer;
+}
+
+.FormElement::placeholder {
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: capitalize;
+}
+
+.FormElement:hover {
+  border-bottom: 2px solid #ff6700;
+}
+
+.FormElement:focus {
+  outline: none;
+}

@@ -2,6 +2,7 @@ import * as actionTypes from "../constants";
 
 const initialState = {
   books: [],
+  query: "",
   loading: false,
   error: false,
 };
@@ -18,8 +19,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_BOOKS_SUCCESS:
       return {
         ...state,
-        books: action.payload,
+        books: action.payload.books,
         loading: false,
+        query: action.payload.query,
         error: false,
       };
 

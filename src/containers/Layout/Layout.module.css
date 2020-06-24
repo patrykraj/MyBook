@@ -1,6 +1,21 @@
+.Header {
+  position: fixed;
+  width: 100%;
+  padding: 0 1rem;
+  height: 57px;
+  background-color: #ff6700;
+  z-index: 100;
+}
+
 .Main {
-  padding-top: 57px;
+  padding-top: 82px;
+  padding-left: 1rem;
   background-color: rgb(253, 253, 253);
   margin: 0 auto;
   max-width: 1200px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }

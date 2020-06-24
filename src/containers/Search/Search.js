@@ -1,58 +1,58 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
-import { fetchBooksUrl } from "../../assets/constants";
-
-import Form from "../../components/formElements/Form";
 import Books from "../../components/Books/Books";
 import * as actions from "../../store/actions/actions";
 
+import MainHeader from "../../components/MainHeader/MainHeader";
+
 const Search = (props) => {
-  const [loadedBooks, setLoadedBooks] = useState([]);
-  const { onFetchBooks } = props;
+  const { books, searchedQuery } = props;
 
-  const sendRequest = useCallback(
-    async (query) => {
-      query = query.trim().split(" ").join("+");
+  // const sendRequest = useCallback(
+  //   (query) => {
+  //     query = query.trim().split(" ").join("+");
+  //     console.log("FETCH");
 
-      onFetchBooks(query);
+  //     onFetchBooks(query);
 
-      try {
-        const promise = await fetch(fetchBooksUrl + query);
-        const res = await promise.json();
+  //     props.history.push({
+  //       pathname: "/",
+  //       search: "books&search=" + query,
+  //     });
+  //   },
+  //   [props.history, onFetchBooks]
+  // );
 
-        props.history.push({
-          pathname: "/",
-          search: "books&search=" + query,
-        });
+  // useEffect(() => {
+  //   if (searchedQuery || (books && books.length > 0)) return;
+  //   let query = new URLSearchParams(props.location.search.split("=")[1]);
 
-        setLoadedBooks(res.items);
-      } catch (error) {}
-    },
-    [props.history, onFetchBooks]
-  );
+  //   query = decodeURIComponent(query);
+  //   query = query.slice(0, query.length - 1);
+  //   if (query.length <= 1) return;
+  //   sendRequest(query);
+  // }, [props.location.search, sendRequest, books, searchedQuery]);
 
-  useEffect(() => {
-    if (loadedBooks.length > 0) return;
-    let query = new URLSearchParams(props.location.search.split("=")[1]);
+  if (props.loading) return <p>Loading...</p>;
 
-    query = decodeURIComponent(query);
-    query = query.slice(0, query.length - 1);
-    if (query.length <= 1) return setLoadedBooks([]);
-    sendRequest(query);
-  }, [props.location.search, sendRequest, loadedBooks.length]);
+  // const URI = decodeURIComponent(props.history.location.search);
 
   return (
     <>
-      <Form sendRequest={sendRequest} />
-      {typeof loadedBooks === "undefined" ? (
-        <h1>
-          Cannot find phrase{" "}
-          {decodeURIComponent(props.history.location.search.split("=")[1])}
+      {books && books.length > 0 && (
+        <h1 style={{ textTransform: "uppercase" }}>
+          "{searchedQuery.split("+").join(" ")}" books:
+        </h1>
+      )}
+      {typeof books === "undefined" ? (
+        <h1 name="center">
+          Cannot find phrase {searchedQuery.split("+").join(" ")}
         </h1>
       ) : (
-        <Books loadedBooks={loadedBooks} />
+        <Books loadedBooks={books} />
       )}
+      <MainHeader center>Start searching</MainHeader>
     </>
   );
 };
@@ -60,6 +60,9 @@ const Search = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.reducer.loading,
+    error: state.reducer.error,
+    books: state.reducer.books,
+    searchedQuery: state.reducer.query,
   };
 };
 
