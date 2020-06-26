@@ -3,36 +3,36 @@ import { connect } from "react-redux";
 
 import Books from "../../components/Books/Books";
 import * as actions from "../../store/actions/actions";
-
 import MainHeader from "../../components/MainHeader/MainHeader";
+import axios from "../../axios-books";
 
 const Search = (props) => {
   const { books, searchedQuery } = props;
 
-  // const sendRequest = useCallback(
-  //   (query) => {
-  //     query = query.trim().split(" ").join("+");
-  //     console.log("FETCH");
+  const handleAddBook = async (data) => {
+    let booksOnList = [];
+    let bookIsValid = true;
 
-  //     onFetchBooks(query);
+    try {
+      let res = await axios.get("/books.json").catch((err) => console.log(err));
+      booksOnList = await res.data;
 
-  //     props.history.push({
-  //       pathname: "/",
-  //       search: "books&search=" + query,
-  //     });
-  //   },
-  //   [props.history, onFetchBooks]
-  // );
+      for (const [key, val] of Object.entries(booksOnList)) {
+        if (val.id === data.id) bookIsValid = false;
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
-  // useEffect(() => {
-  //   if (searchedQuery || (books && books.length > 0)) return;
-  //   let query = new URLSearchParams(props.location.search.split("=")[1]);
-
-  //   query = decodeURIComponent(query);
-  //   query = query.slice(0, query.length - 1);
-  //   if (query.length <= 1) return;
-  //   sendRequest(query);
-  // }, [props.location.search, sendRequest, books, searchedQuery]);
+    if (bookIsValid) {
+      axios
+        .post("/books.json", data)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    } else {
+      console.log("Book's already in the list");
+    }
+  };
 
   if (props.loading) return <p>Loading...</p>;
 
@@ -41,16 +41,16 @@ const Search = (props) => {
   return (
     <>
       {books && books.length > 0 && (
-        <h1 style={{ textTransform: "uppercase" }}>
+        <MainHeader style={{ textTransform: "uppercase" }}>
           "{searchedQuery.split("+").join(" ")}" books:
-        </h1>
+        </MainHeader>
       )}
       {typeof books === "undefined" ? (
-        <h1 name="center">
+        <MainHeader center>
           Cannot find phrase {searchedQuery.split("+").join(" ")}
-        </h1>
+        </MainHeader>
       ) : (
-        <Books loadedBooks={books} />
+        <Books loadedBooks={books} click={handleAddBook} search />
       )}
       <MainHeader center>Start searching</MainHeader>
     </>

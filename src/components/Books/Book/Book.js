@@ -1,9 +1,11 @@
 import React from "react";
 
+import Button from "../../formElements/Button";
+
 import classes from "./Book.module.css";
 
 const Book = (props) => {
-  const { book } = props;
+  const { book, searching, click } = props;
 
   return (
     <li className={classes.BookListElement}>
@@ -15,18 +17,21 @@ const Book = (props) => {
               : "http://siddallheatingandcooling.net/_imgstore/5/1360415/thumbnail/FSeY96wEdX_eY4XkBN2jfYnuY9A.png"
           }
           alt="cover"
-        ></img>
+        />
       </div>
-      <div>
-        <p>{book.volumeInfo.title}</p>
+      <div className={classes.BookDescriptionWrapper}>
+        <p className={classes.BookDescriptionTitle}>{book.volumeInfo.title}</p>
         <p>
-          {"\n Written by"} {book.volumeInfo.authors}
+          {"\n Written by"}{" "}
+          {book.volumeInfo.authors && book.volumeInfo.authors.join(", ")}
         </p>
-        <p>{book.volumeInfo.publishedDate}</p>
+        <p>Published: {book.volumeInfo.publishedDate}</p>
       </div>
-      <div>
-        <button>KLIK</button>
-      </div>
+      {searching && (
+        <div>
+          <Button click={() => click(book)}>+ add to my books</Button>
+        </div>
+      )}
     </li>
   );
 };

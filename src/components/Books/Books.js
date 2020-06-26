@@ -8,7 +8,14 @@ const Books = (props) => {
   return (
     <ul className={classes.BooksList}>
       {props.loadedBooks.length > 0 &&
-        props.loadedBooks.map((book) => <Book key={book.id} book={book} />)}
+        props.loadedBooks.map((book) => (
+          <Book
+            key={book.id}
+            book={book}
+            click={props.click}
+            searching={props.search}
+          />
+        ))}
     </ul>
   );
 };

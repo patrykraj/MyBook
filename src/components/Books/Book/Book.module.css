@@ -9,11 +9,29 @@
 
 .BookListElement:last-of-type {
   border-bottom: none;
+  margin-bottom: 2rem;
+}
+
+.BookImageWrapper {
+  flex: 1;
+}
+
+.BookDescriptionWrapper {
+  color: rgba(0, 0, 0, 0.8);
+  flex: 4;
+}
+
+.BookDescriptionWrapper p:first-of-type {
+  margin-top: 0;
+}
+
+.BookDescriptionTitle {
+  font-weight: bold;
 }
 
 .BookListElement img {
-  width: 130px;
-  height: 200px;
+  width: 110px;
+  height: 170px;
   transition: all 0.3s;
 }
 
