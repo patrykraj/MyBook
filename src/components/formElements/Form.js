@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import { RiSearchLine } from "react-icons/ri";
 
 import * as actions from "../../store/actions/actions";
 import classes from "./Form.module.css";
@@ -11,8 +12,6 @@ const Form = (props) => {
   const [error, setError] = useState(false);
   const [searchedBook, setSearchedBook] = useState("");
   const history = useHistory();
-
-  console.log(props);
 
   const handleSendRequest = (e) => {
     setError(false);
@@ -37,7 +36,7 @@ const Form = (props) => {
       />
       <form onSubmit={handleSendRequest}>
         <button type="submit" className={classes.FormElement}>
-          KLIK
+          <RiSearchLine />
         </button>
         <input
           type="text"
@@ -49,15 +48,6 @@ const Form = (props) => {
           onChange={(e) => setSearchedBook(e.target.value)}
           value={searchedBook}
         />
-        {/* {error && !props.isLoading && (
-        <span
-          style={{
-            color: "red",
-          }}
-        >
-          Invalid data (min. 2 characters)
-        </span>
-      )} */}
       </form>
     </>
   );

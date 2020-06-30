@@ -5,6 +5,7 @@ import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import axios from "../../axios-books";
+import * as actions from "../../store/actions/actions";
 
 const Search = (props) => {
   const { books, searchedQuery } = props;
@@ -26,24 +27,29 @@ const Search = (props) => {
         if (val.id === data.id) bookIsValid = false;
       }
     } catch (err) {
-      setNotification("Something went wrong...", err.message);
+      setNotification("Something went wrong. Please try again.", err.message);
     }
 
     if (bookIsValid) {
-      axios
-        .post("/books.json", data)
-        .then((res) => setNotification("Book has been successfully added."))
-        .catch((err) => setNotification("Something went wrong..."));
+      props.onAddBook(data);
     } else {
       setNotification("Book's already in the list.");
     }
+  };
+
+  const handleNotifications = () => {
+    if (notification) return setNotification(null);
+    props.resetError();
   };
 
   if (props.loading) return <p>Loading...</p>;
 
   return (
     <>
-      <Modal show={notification} cancelModal={() => setNotification(null)} />
+      <Modal
+        show={notification || props.error}
+        cancelModal={handleNotifications}
+      />
       {books && books.length > 0 && (
         <MainHeader style={{ textTransform: "uppercase" }}>
           "{searchedQuery.split("+").join(" ")}" books:
@@ -70,4 +76,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Search);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddBook: (payload) => dispatch(actions.addBook(payload)),
+    onResetError: () => dispatch(actions.resetError()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

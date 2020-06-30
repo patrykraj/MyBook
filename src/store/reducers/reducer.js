@@ -5,6 +5,7 @@ const initialState = {
   query: "",
   loading: false,
   error: null,
+  notification: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +30,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error: action.payload,
+      };
+
+    case actionTypes.ADD_BOOK_SUCCESS:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case actionTypes.ADD_BOOK_FAILURE:
+      return {
+        ...state,
         error: action.payload,
       };
 

@@ -40,6 +40,29 @@ export const fetchBooks = (payload) => {
   };
 };
 
+export const addBookSuccess = () => {
+  return {
+    type: actionTypes.ADD_BOOK_SUCCESS,
+    payload: "Book has been successfully added.",
+  };
+};
+
+export const addBookFailure = () => {
+  return {
+    type: actionTypes.ADD_BOOK_FAILURE,
+    payload: "Something went wrong. Please try again.",
+  };
+};
+
+export const addBook = (payload) => {
+  return async (dispatch) => {
+    axios
+      .post("https://mybook-3531d.firebaseio.com/books.json", payload)
+      .then((res) => dispatch(addBookSuccess()))
+      .catch((err) => dispatch(addBookFailure()));
+  };
+};
+
 export const resetError = () => {
   return {
     type: actionTypes.RESET_ERROR,
