@@ -4,7 +4,7 @@ const initialState = {
   books: [],
   query: "",
   loading: false,
-  error: false,
+  error: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: false,
+        error: null,
       };
 
     case actionTypes.FETCH_BOOKS_SUCCESS:
@@ -22,7 +22,7 @@ const reducer = (state = initialState, action) => {
         books: action.payload.books,
         loading: false,
         query: action.payload.query,
-        error: false,
+        error: null,
       };
 
     case actionTypes.FETCH_BOOKS_FAILURE:
@@ -30,6 +30,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+
+    case actionTypes.RESET_ERROR:
+      return {
+        ...state,
+        error: null,
       };
 
     default:

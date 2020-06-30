@@ -14,6 +14,7 @@ const Books = (props) => {
             book={book}
             click={props.click}
             searching={props.search}
+            rate={props.rate}
           />
         ))}
     </ul>

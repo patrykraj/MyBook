@@ -18,3 +18,12 @@
 .Btn:focus {
   outline: none;
 }
+
+.Delete {
+  border: 2px solid #ea3c53;
+}
+
+.Delete:hover {
+  background-color: #ea3c53;
+  color: #fff;
+}

@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+
+import * as actions from "../../store/actions/actions";
 import classes from "./Form.module.css";
 
-import { connect } from "react-redux";
-import * as actions from "../../store/actions/actions";
+import Modal from "../Modal/Modal";
 
 const Form = (props) => {
   const [error, setError] = useState(false);
   const [searchedBook, setSearchedBook] = useState("");
+  const history = useHistory();
+
+  console.log(props);
 
   const handleSendRequest = (e) => {
     setError(false);
@@ -18,32 +24,32 @@ const Form = (props) => {
       return;
     }
 
-    console.log("FETCH", props);
-
     props.onFetchBooks(query);
-
-    // props.history.push({
-    //   pathname: "/",
-    //   search: "books&search=" + query,
-    // });
-
-    // props.sendRequest(searchedBook);
     setSearchedBook("");
+    history.push("/");
   };
 
   return (
-    <form onSubmit={handleSendRequest}>
-      <button type="submit" className={classes.FormElement}>
-        KLIK
-      </button>
-      <input
-        type="text"
-        placeholder="search"
-        className={classes.FormElement}
-        onChange={(e) => setSearchedBook(e.target.value)}
-        value={searchedBook}
+    <>
+      <Modal
+        show={props.error && props.error.message}
+        cancelModal={() => props.onResetError()}
       />
-      {error && !props.isLoading && (
+      <form onSubmit={handleSendRequest}>
+        <button type="submit" className={classes.FormElement}>
+          KLIK
+        </button>
+        <input
+          type="text"
+          placeholder="search"
+          className={classes.FormElement}
+          style={{
+            borderBottom: error && !props.isLoading && "2px solid red",
+          }}
+          onChange={(e) => setSearchedBook(e.target.value)}
+          value={searchedBook}
+        />
+        {/* {error && !props.isLoading && (
         <span
           style={{
             color: "red",
@@ -51,15 +57,23 @@ const Form = (props) => {
         >
           Invalid data (min. 2 characters)
         </span>
-      )}
-    </form>
+      )} */}
+      </form>
+    </>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    error: state.reducer.error,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchBooks: (payload) => dispatch(actions.fetchBooks(payload)),
+    onResetError: () => dispatch(actions.resetError()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

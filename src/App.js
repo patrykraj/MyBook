@@ -8,7 +8,7 @@ import Search from "./containers/Search/Search";
 import Saved from "./containers/Saved/Saved";
 // import Auth from "./containers/Auth/Auth";
 
-function App(props) {
+function App() {
   let routes = (
     <Switch>
       <Route path="/saved" component={Saved} />

@@ -5,7 +5,7 @@ import Button from "../../formElements/Button";
 import classes from "./Book.module.css";
 
 const Book = (props) => {
-  const { book, searching, click } = props;
+  const { book, click, searching, rate } = props;
 
   return (
     <li className={classes.BookListElement}>
@@ -30,6 +30,13 @@ const Book = (props) => {
       {searching && (
         <div>
           <Button click={() => click(book)}>+ add to my books</Button>
+        </div>
+      )}
+      {rate && (
+        <div>
+          <Button delete click={() => {}}>
+            Delete
+          </Button>
         </div>
       )}
     </li>

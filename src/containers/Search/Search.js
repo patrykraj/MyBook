@@ -1,45 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import Books from "../../components/Books/Books";
-import * as actions from "../../store/actions/actions";
+import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import axios from "../../axios-books";
 
 const Search = (props) => {
   const { books, searchedQuery } = props;
+  const [notification, setNotification] = useState(null);
 
   const handleAddBook = async (data) => {
     let booksOnList = [];
     let bookIsValid = true;
 
     try {
-      let res = await axios.get("/books.json").catch((err) => console.log(err));
+      let res = await axios
+        .get("/books.json")
+        .catch((err) =>
+          setNotification("Something went wrong...", err.message)
+        );
       booksOnList = await res.data;
 
       for (const [key, val] of Object.entries(booksOnList)) {
         if (val.id === data.id) bookIsValid = false;
       }
     } catch (err) {
-      console.log(err);
+      setNotification("Something went wrong...", err.message);
     }
 
     if (bookIsValid) {
       axios
         .post("/books.json", data)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => setNotification("Book has been successfully added."))
+        .catch((err) => setNotification("Something went wrong..."));
     } else {
-      console.log("Book's already in the list");
+      setNotification("Book's already in the list.");
     }
   };
 
   if (props.loading) return <p>Loading...</p>;
 
-  // const URI = decodeURIComponent(props.history.location.search);
-
   return (
     <>
+      <Modal show={notification} cancelModal={() => setNotification(null)} />
       {books && books.length > 0 && (
         <MainHeader style={{ textTransform: "uppercase" }}>
           "{searchedQuery.split("+").join(" ")}" books:
@@ -66,10 +70,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchBooks: (payload) => dispatch(actions.fetchBooks(payload)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps)(Search);

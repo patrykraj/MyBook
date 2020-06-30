@@ -1,0 +1,35 @@
+.Modal {
+  background-color: #fff;
+  width: 300px;
+  height: 200px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+}
+
+.ModalTop {
+  width: 100%;
+  background-color: dimgray;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.7rem;
+}
+
+.ModalTop button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.ModalBottom {
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+}

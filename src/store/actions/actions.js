@@ -39,3 +39,9 @@ export const fetchBooks = (payload) => {
       });
   };
 };
+
+export const resetError = () => {
+  return {
+    type: actionTypes.RESET_ERROR,
+  };
+};
