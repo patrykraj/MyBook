@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import Books from "../../components/Books/Books";
@@ -6,54 +6,63 @@ import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import axios from "../../axios-books";
 import * as actions from "../../store/actions/actions";
+import classes from "./Search.module.css";
 
 const Search = (props) => {
-  const { books, searchedQuery } = props;
-  const [notification, setNotification] = useState(null);
+  const {
+    books,
+    loading,
+    searchedQuery,
+    onAddBook,
+    onAddBookFailure,
+    onResetError,
+  } = props;
 
   const handleAddBook = async (data) => {
     let booksOnList = [];
     let bookIsValid = true;
+    data = {
+      ...data,
+      dateAdded: new Date().toLocaleDateString(),
+    };
 
     try {
       let res = await axios
         .get("/books.json")
-        .catch((err) =>
-          setNotification("Something went wrong...", err.message)
-        );
+        .catch((err) => onAddBookFailure());
       booksOnList = await res.data;
 
       for (const [key, val] of Object.entries(booksOnList)) {
         if (val.id === data.id) bookIsValid = false;
+        console.log(key);
       }
     } catch (err) {
-      setNotification("Something went wrong. Please try again.", err.message);
+      onAddBookFailure();
     }
 
     if (bookIsValid) {
-      props.onAddBook(data);
+      onAddBook(data);
     } else {
-      setNotification("Book's already in the list.");
+      onAddBookFailure("Book's already in the list.");
     }
   };
 
   const handleNotifications = () => {
-    if (notification) return setNotification(null);
-    props.resetError();
+    onResetError();
   };
 
-  if (props.loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className={books.length && !loading ? null : classes.Container}>
+        <p>Loading...</p>
+      </div>
+    );
 
   return (
-    <>
-      <Modal
-        show={notification || props.error}
-        cancelModal={handleNotifications}
-      />
+    <div className={books.length && !loading ? null : classes.Container}>
+      <Modal show={props.error} cancelModal={handleNotifications} />
       {books && books.length > 0 && (
-        <MainHeader style={{ textTransform: "uppercase" }}>
-          "{searchedQuery.split("+").join(" ")}" books:
-        </MainHeader>
+        <MainHeader>"{searchedQuery.split("+").join(" ")}" books:</MainHeader>
       )}
       {typeof books === "undefined" ? (
         <MainHeader center>
@@ -62,8 +71,8 @@ const Search = (props) => {
       ) : (
         <Books loadedBooks={books} click={handleAddBook} search />
       )}
-      <MainHeader center>Start searching</MainHeader>
-    </>
+      {!searchedQuery && <MainHeader center>Start searching</MainHeader>}
+    </div>
   );
 };
 
@@ -79,6 +88,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddBook: (payload) => dispatch(actions.addBook(payload)),
+    onAddBookFailure: (payload) => dispatch(actions.addBookFailure(payload)),
     onResetError: () => dispatch(actions.resetError()),
   };
 };

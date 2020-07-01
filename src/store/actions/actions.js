@@ -35,7 +35,7 @@ export const fetchBooks = (payload) => {
         dispatch(fetchBooksSuccess(res.data.items, payload));
       })
       .catch((err) => {
-        dispatch(fetchBooksFailure(err));
+        dispatch(fetchBooksFailure(err.message));
       });
   };
 };
@@ -47,10 +47,10 @@ export const addBookSuccess = () => {
   };
 };
 
-export const addBookFailure = () => {
+export const addBookFailure = (payload) => {
   return {
     type: actionTypes.ADD_BOOK_FAILURE,
-    payload: "Something went wrong. Please try again.",
+    payload: payload || "Something went wrong. Please try again.",
   };
 };
 
