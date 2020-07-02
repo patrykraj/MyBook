@@ -20,10 +20,10 @@ const Book = (props) => {
   let selectedOption;
   switch (book.selectedOption) {
     case "1":
-      selectedOption = "You want to buy this book.";
+      selectedOption = "Want to buy this book.";
       break;
     case "2":
-      selectedOption = `You read this book on ${book.dateRead}.`;
+      selectedOption = `Read this book on ${book.dateRead}.`;
       break;
     default:
       selectedOption = "It's in your bookshelf.";
@@ -79,7 +79,7 @@ const Book = (props) => {
             justifyContent: "space-between",
           }}
         >
-          <Button delete click={() => {}}>
+          <Button delete click={() => props.click(book.query)}>
             Delete
           </Button>
           <select onChange={(e) => handleValue(e.target.value)}>

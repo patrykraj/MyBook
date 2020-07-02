@@ -63,6 +63,45 @@ export const addBook = (payload) => {
   };
 };
 
+export const confirmDeleteBook = (id) => {
+  return {
+    type: actionTypes.CONFIRM_DELETE_BOOK,
+    payload: {
+      deleteId: id,
+      error: "Are you sure?",
+    },
+  };
+};
+
+export const deleteBookStart = () => {
+  return {
+    type: actionTypes.DELETE_BOOK_START,
+  };
+};
+
+export const deleteBookSuccess = () => {
+  return {
+    type: actionTypes.DELETE_BOOK_SUCCESS,
+  };
+};
+
+export const deleteBookFailure = () => {
+  return {
+    type: actionTypes.DELETE_BOOK_FAILURE,
+    payload: "Something went wrong. Try again.",
+  };
+};
+
+export const deleteBook = (payload) => {
+  return async (dispatch) => {
+    dispatch(deleteBookStart());
+    axios
+      .delete(`https://mybook-3531d.firebaseio.com/books/${payload}.json`)
+      .then((res) => dispatch(deleteBookSuccess()))
+      .catch((err) => dispatch(deleteBookFailure()));
+  };
+};
+
 export const resetError = () => {
   return {
     type: actionTypes.RESET_ERROR,

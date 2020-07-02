@@ -5,7 +5,8 @@ const initialState = {
   query: "",
   loading: false,
   error: null,
-  notification: null,
+  deleteId: null,
+  deleting: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -45,9 +46,42 @@ const reducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+    case actionTypes.CONFIRM_DELETE_BOOK:
+      return {
+        ...state,
+        deleteId: action.payload.deleteId,
+        error: action.payload.error,
+      };
+
+    case actionTypes.DELETE_BOOK_START:
+      return {
+        ...state,
+        loading: true,
+        deleting: true,
+      };
+
+    case actionTypes.DELETE_BOOK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        deleteId: null,
+        deleting: false,
+      };
+
+    case actionTypes.DELETE_BOOK_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        deleteId: null,
+        deleting: false,
+      };
+
     case actionTypes.RESET_ERROR:
       return {
         ...state,
+        deleteId: null,
         error: null,
       };
 
