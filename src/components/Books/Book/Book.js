@@ -7,7 +7,8 @@ import classes from "./Book.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Book = (props) => {
-  const { book, click, searching, rate } = props;
+  const { book, click, searching, rate, loadingBookState } = props;
+
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -67,8 +68,10 @@ const Book = (props) => {
         )}
       </div>
       {searching && (
-        <div>
-          <Button click={() => click(book)}>+ add to my books</Button>
+        <div style={{ flexBasis: "161px" }}>
+          <Button click={() => click(book)} disabled={loadingBookState}>
+            {loadingBookState ? "Loading" : "+ add to my books"}
+          </Button>
         </div>
       )}
       {rate && (

@@ -8,9 +8,9 @@ import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
 
 const Saved = (props) => {
-  const { onConfirmDeleteBook } = props;
+  const { onConfirmDeleteBook, deleting } = props;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [myBooks, setMyBooks] = useState([]);
   const [error, setError] = useState(null);
 
@@ -24,6 +24,7 @@ const Saved = (props) => {
   };
 
   useEffect(() => {
+    if (deleting === true) return;
     setLoading(true);
     axios
       .get("/books.json")
@@ -42,21 +43,40 @@ const Saved = (props) => {
         setLoading(false);
         setError(`Something went wrong: ${err.message}`);
       });
-  }, [setError, props.deleting]);
+  }, [deleting]);
 
+  let content;
   if (loading) {
-    return <h3>Loading...</h3>;
+    content = <h3>Loading...</h3>;
   }
 
+  if (myBooks.length > 0)
+    content = (
+      <>
+        <Modal
+          show={error || props.notification}
+          cancelModal={handleNotifications}
+          delete={props.deleteId}
+        />
+        <Books loadedBooks={myBooks} click={deleteBook} rate />
+      </>
+    );
+
   return (
-    <>
-      <Modal
-        show={error || props.notification}
-        cancelModal={handleNotifications}
-        delete={props.deleteId}
-      />
-      <Books loadedBooks={myBooks} click={deleteBook} rate />
-    </>
+    <div
+      className={
+        (myBooks.length && !loading) || (myBooks.length && loading)
+          ? "container--filled"
+          : "container"
+      }
+    >
+      {!loading && (
+        <h1 className="header">
+          {myBooks.length ? "Bookshelf:" : "Bookshelf's empty"}
+        </h1>
+      )}
+      {content}
+    </div>
   );
 };
 
@@ -70,8 +90,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // onFetchBooksFailure: (payload) =>
-    //   dispatch(actions.fetchBooksFailure(payload)),
     onResetError: () => dispatch(actions.resetError()),
     onConfirmDeleteBook: (payload) =>
       dispatch(actions.confirmDeleteBook(payload)),

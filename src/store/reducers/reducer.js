@@ -7,6 +7,7 @@ const initialState = {
   error: null,
   deleteId: null,
   deleting: false,
+  loadingBookState: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,16 +35,24 @@ const reducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+    case actionTypes.ADD_BOOK_START:
+      return {
+        ...state,
+        loadingBookState: action.payload,
+      };
+
     case actionTypes.ADD_BOOK_SUCCESS:
       return {
         ...state,
         error: action.payload,
+        loadingBookState: null,
       };
 
     case actionTypes.ADD_BOOK_FAILURE:
       return {
         ...state,
         error: action.payload,
+        loadingBookState: null,
       };
 
     case actionTypes.CONFIRM_DELETE_BOOK:
@@ -58,6 +67,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: true,
         deleting: true,
+        loadingBookState: null,
       };
 
     case actionTypes.DELETE_BOOK_SUCCESS:
@@ -67,6 +77,7 @@ const reducer = (state = initialState, action) => {
         error: null,
         deleteId: null,
         deleting: false,
+        loadingBookState: null,
       };
 
     case actionTypes.DELETE_BOOK_FAILURE:
@@ -76,6 +87,7 @@ const reducer = (state = initialState, action) => {
         error: action.payload,
         deleteId: null,
         deleting: false,
+        loadingBookState: null,
       };
 
     case actionTypes.RESET_ERROR:

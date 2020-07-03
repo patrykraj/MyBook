@@ -40,6 +40,13 @@ export const fetchBooks = (payload) => {
   };
 };
 
+export const addBookStart = (payload) => {
+  return {
+    type: actionTypes.ADD_BOOK_START,
+    payload,
+  };
+};
+
 export const addBookSuccess = () => {
   return {
     type: actionTypes.ADD_BOOK_SUCCESS,

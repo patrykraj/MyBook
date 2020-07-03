@@ -19,6 +19,7 @@ const Search = (props) => {
   } = props;
 
   const handleAddBook = async (data) => {
+    props.onAddBookStart(data.id);
     let booksOnList = [];
     let bookIsValid = true;
     data = {
@@ -37,19 +38,21 @@ const Search = (props) => {
         console.log(key);
       }
     } catch (err) {
-      onAddBookFailure();
+      console.log(err);
     }
 
     if (bookIsValid) {
-      onAddBook(data);
+      return onAddBook(data);
     } else {
-      onAddBookFailure("Book's already in the list.");
+      return onAddBookFailure("Book's already in the list.");
     }
   };
 
   const handleNotifications = () => {
     onResetError();
   };
+
+  const transformedQuery = searchedQuery.split("+").join(" ");
 
   if (loading)
     return (
@@ -59,17 +62,22 @@ const Search = (props) => {
     );
 
   return (
-    <div className={books.length && !loading ? null : classes.Container}>
+    <div
+      className={books.length && !loading ? "container--filled" : "container"}
+    >
       <Modal show={props.error} cancelModal={handleNotifications} />
       {books && books.length > 0 && (
-        <MainHeader>"{searchedQuery.split("+").join(" ")}" books:</MainHeader>
+        <MainHeader>"{transformedQuery}" books:</MainHeader>
       )}
       {typeof books === "undefined" ? (
-        <MainHeader center>
-          Cannot find phrase {searchedQuery.split("+").join(" ")}
-        </MainHeader>
+        <MainHeader center>Cannot find phrase {transformedQuery}</MainHeader>
       ) : (
-        <Books loadedBooks={books} click={handleAddBook} search />
+        <Books
+          loadedBooks={books}
+          loadingBookState={props.loadingBookState}
+          click={handleAddBook}
+          search
+        />
       )}
       {!searchedQuery && <MainHeader center>Start searching</MainHeader>}
     </div>
@@ -82,11 +90,13 @@ const mapStateToProps = (state) => {
     error: state.reducer.error,
     books: state.reducer.books,
     searchedQuery: state.reducer.query,
+    loadingBookState: state.reducer.loadingBookState,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onAddBookStart: (payload) => dispatch(actions.addBookStart(payload)),
     onAddBook: (payload) => dispatch(actions.addBook(payload)),
     onAddBookFailure: (payload) => dispatch(actions.addBookFailure(payload)),
     onResetError: () => dispatch(actions.resetError()),

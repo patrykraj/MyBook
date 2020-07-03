@@ -15,6 +15,7 @@ const Books = (props) => {
             click={props.click}
             searching={props.search}
             rate={props.rate}
+            loadingBookState={props.loadingBookState === book.id}
           />
         ))}
     </ul>

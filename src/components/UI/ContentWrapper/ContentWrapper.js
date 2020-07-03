@@ -1,13 +1,13 @@
 import React from "react";
 
+import MainHeader from "../../MainHeader/MainHeader";
+
+import classes from "./ContentWrapper.module.css";
+
 const ContentWrapper = (props) => {
   return (
-    <div
-      style={{
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
-    >
+    <div className={props.container && classes.Container}>
+      <MainHeader center={props.center}>{props.header}</MainHeader>
       {props.children}
     </div>
   );
