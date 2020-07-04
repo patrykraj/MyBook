@@ -1,0 +1,43 @@
+.Loader {
+  transform: translateY(-200%);
+}
+
+.BottomLeft {
+  display: inline-block;
+  width: 40px;
+  height: 6px;
+  background-color: #ff6700;
+  border-radius: 3px;
+  transform: rotate(15deg) translateX(1px);
+}
+
+.BottomLeft:after {
+  content: "";
+  display: block;
+  width: 37px;
+  height: 2px;
+  border-radius: 3px;
+  background-color: #ff6700;
+  animation: read 1s infinite;
+}
+
+.BottomRight {
+  display: inline-block;
+  width: 40px;
+  height: 6px;
+  background-color: #ff6700;
+  border-radius: 3px;
+  transform: rotate(-15deg) translateX(-1px);
+}
+
+@keyframes read {
+  0% {
+    transform: rotate(0) translateX(5px);
+    transform-origin: bottom right;
+  }
+
+  100% {
+    transform: rotate(150deg);
+    transform-origin: bottom right;
+  }
+}

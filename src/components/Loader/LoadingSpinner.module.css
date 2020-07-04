@@ -1,0 +1,25 @@
+.LoadingSpinner {
+  display: flex;
+  justify-content: center;
+}
+
+.Wrapper {
+  width: 20px;
+  height: 20px;
+  border-top: 3px solid #ff6700;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.15);
+  border-left: 3px solid rgba(0, 0, 0, 0.15);
+  border-right: 3px solid rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  animation: loop 0.65s infinite linear;
+}
+
+@keyframes loop {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

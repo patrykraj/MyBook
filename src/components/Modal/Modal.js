@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import Backdrop from "./Backdrop";
 import Button from "../formElements/Button";
+import LoadingSpinner from "../Loader/LoadingSpinner";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/actions";
@@ -15,7 +16,7 @@ const Modal = (props) => {
       <Backdrop cancel={props.cancelModal} />
       <div className={classes.Modal}>
         {props.loading ? (
-          <p>Loading...</p>
+          <LoadingSpinner modal />
         ) : (
           <>
             <div className={classes.ModalTop}>

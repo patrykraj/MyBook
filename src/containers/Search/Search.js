@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
+import Loader from "../../components/Loader/Loader";
 import axios from "../../axios-books";
 import * as actions from "../../store/actions/actions";
+
 import classes from "./Search.module.css";
 
 const Search = (props) => {
@@ -57,7 +59,7 @@ const Search = (props) => {
   if (loading)
     return (
       <div className={books.length && !loading ? null : classes.Container}>
-        <p>Loading...</p>
+        <Loader />
       </div>
     );
 

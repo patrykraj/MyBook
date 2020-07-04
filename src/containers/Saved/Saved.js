@@ -6,6 +6,8 @@ import * as actions from "../../store/actions/actions";
 
 import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
+import MainHeader from "../../components/MainHeader/MainHeader";
+import Loader from "../../components/Loader/Loader";
 
 const Saved = (props) => {
   const { onConfirmDeleteBook, deleting } = props;
@@ -47,7 +49,7 @@ const Saved = (props) => {
 
   let content;
   if (loading) {
-    content = <h3>Loading...</h3>;
+    content = <Loader />;
   }
 
   if (myBooks.length > 0)
@@ -58,6 +60,7 @@ const Saved = (props) => {
           cancelModal={handleNotifications}
           delete={props.deleteId}
         />
+        <MainHeader>Bookshelf:</MainHeader>
         <Books loadedBooks={myBooks} click={deleteBook} rate />
       </>
     );
@@ -70,10 +73,8 @@ const Saved = (props) => {
           : "container"
       }
     >
-      {!loading && (
-        <h1 className="header">
-          {myBooks.length ? "Bookshelf:" : "Bookshelf's empty"}
-        </h1>
+      {!loading && !myBooks.length && (
+        <MainHeader center>Bookshelf's empty</MainHeader>
       )}
       {content}
     </div>

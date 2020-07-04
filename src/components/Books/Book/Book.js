@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Button from "../../formElements/Button";
 import DatePicker from "react-datepicker";
+import LoadingSpinner from "../../Loader/LoadingSpinner";
 
 import classes from "./Book.module.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -55,7 +56,7 @@ const Book = (props) => {
             ? book.volumeInfo.publishedDate
             : "N/D"}
         </p>
-        <p>{selectedOption}</p>
+        {rate && <p>{selectedOption}</p>}
         {rate && touched && value === "2" && (
           <>
             <p>Set read date: </p>
@@ -70,16 +71,15 @@ const Book = (props) => {
       {searching && (
         <div style={{ flexBasis: "161px" }}>
           <Button click={() => click(book)} disabled={loadingBookState}>
-            {loadingBookState ? "Loading" : "+ add to my books"}
+            {loadingBookState ? <LoadingSpinner /> : "+ add"}
           </Button>
         </div>
       )}
       {rate && (
         <div
+          className={classes.OptionsDiv}
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
+            flex: "1",
           }}
         >
           <Button delete click={() => props.click(book.query)}>

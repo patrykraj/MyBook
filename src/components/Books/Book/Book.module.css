@@ -42,3 +42,11 @@
 .BookListElement > * {
   margin: 0 10px;
 }
+
+.OptionsDiv {
+  flex: 1;
+}
+
+.OptionsDiv > * {
+  margin-bottom: 20px;
+}
