@@ -16,8 +16,27 @@
   color: #fff;
 }
 
-.Btn:focus {
+.Btn:focus,
+.Switch:focus {
   outline: none;
+}
+
+.Switch {
+  border: none;
+  display: block;
+  color: #ff6700;
+  background-color: transparent;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  margin: 1rem auto;
+  border-bottom: 2px solid transparent;
+}
+
+.Switch:hover {
+  border-bottom: 2px solid #ff6700;
 }
 
 .Delete {

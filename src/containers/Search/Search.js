@@ -6,7 +6,7 @@ import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/Loader/Loader";
 import axios from "../../axios-books";
-import * as actions from "../../store/actions/actions";
+import * as actions from "../../store/actions/bookActions";
 
 import classes from "./Search.module.css";
 

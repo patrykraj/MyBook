@@ -6,7 +6,7 @@ import Button from "../formElements/Button";
 import LoadingSpinner from "../Loader/LoadingSpinner";
 
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/actions";
+import * as actions from "../../store/actions/bookActions";
 
 import classes from "./Modal.module.css";
 

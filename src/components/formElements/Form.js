@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { RiSearchLine } from "react-icons/ri";
 
-import * as actions from "../../store/actions/actions";
+import * as actions from "../../store/actions/bookActions";
 import classes from "./Form.module.css";
 
 import Modal from "../Modal/Modal";
