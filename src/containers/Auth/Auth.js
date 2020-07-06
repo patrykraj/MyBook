@@ -5,11 +5,12 @@ import * as actions from "../../store/actions/userActions";
 
 import Button from "../../components/formElements/Button";
 import Input from "../../components/formElements/Input";
+import LoadingSpinner from "../../components/Loader/LoadingSpinner";
 import MainHeader from "../../components/MainHeader/MainHeader";
 
 import classes from "./Auth.module.css";
 
-const Auth = (props) => {
+const Auth = ({ onAuth, error, loading }) => {
   const [loginMode, setLoginMode] = useState(true);
 
   const [password, setPassword] = useState("");
@@ -26,14 +27,13 @@ const Auth = (props) => {
 
   const handleSendReq = (e) => {
     e.preventDefault();
-    props.onAuth(email, password, loginMode);
+    onAuth(email, password, loginMode);
   };
 
   let content;
   if (!loginMode) {
     content = (
       <>
-        <MainHeader>Sign Up</MainHeader>
         <Input
           type="email"
           placeholder="email"
@@ -57,7 +57,6 @@ const Auth = (props) => {
   } else {
     content = (
       <>
-        <MainHeader>Login</MainHeader>
         <Input
           type="email"
           placeholder="email"
@@ -76,20 +75,39 @@ const Auth = (props) => {
 
   return (
     <div className={classes.Login}>
+      {loginMode ? (
+        <MainHeader>Login</MainHeader>
+      ) : (
+        <MainHeader>Sign Up</MainHeader>
+      )}
+      {error && (
+        <p
+          style={{
+            color: "red",
+          }}
+        >
+          Error: {error}
+        </p>
+      )}
       <form className={classes.Form}>
         {content}
-        <Button click={handleSendReq}>{loginMode ? "Login" : "Sign up"}</Button>
+        <Button click={handleSendReq} disabled={loading}>
+          {loading ? <LoadingSpinner /> : loginMode ? "Login" : "Sign up"}
+        </Button>
       </form>
       <Button click={handleMode} switch>
-        {loginMode ? "Switch to sign up" : "Switch to login"}
+        {loginMode ? "Don't have an account?" : "Switch to login"}
       </Button>
     </div>
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {};
-// };
+const mapStateToProps = (state) => {
+  return {
+    error: state.user.error,
+    loading: state.user.loading,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -98,4 +116,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

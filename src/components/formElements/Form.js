@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { RiSearchLine } from "react-icons/ri";
 
-import * as actions from "../../store/actions/bookActions";
+import * as actions from "../../store/actions/booksActions";
 import classes from "./Form.module.css";
 
 import Modal from "../Modal/Modal";
@@ -55,7 +55,7 @@ const Form = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    error: state.reducer.error,
+    error: state.books.error,
   };
 };
 

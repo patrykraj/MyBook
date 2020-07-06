@@ -6,7 +6,7 @@ import Button from "../formElements/Button";
 import LoadingSpinner from "../Loader/LoadingSpinner";
 
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/bookActions";
+import * as actions from "../../store/actions/booksActions";
 
 import classes from "./Modal.module.css";
 
@@ -58,8 +58,8 @@ const Modal = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    deleteId: state.reducer.deleteId,
-    loading: state.reducer.loading,
+    deleteId: state.books.deleteId,
+    loading: state.books.loading,
   };
 };
 

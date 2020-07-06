@@ -6,7 +6,7 @@ import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/Loader/Loader";
 import axios from "../../axios-books";
-import * as actions from "../../store/actions/bookActions";
+import * as actions from "../../store/actions/booksActions";
 
 import classes from "./Search.module.css";
 
@@ -88,11 +88,11 @@ const Search = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.reducer.loading,
-    error: state.reducer.error,
-    books: state.reducer.books,
-    searchedQuery: state.reducer.query,
-    loadingBookState: state.reducer.loadingBookState,
+    loading: state.books.loading,
+    error: state.books.error,
+    books: state.books.books,
+    searchedQuery: state.books.query,
+    loadingBookState: state.books.loadingBookState,
   };
 };
 

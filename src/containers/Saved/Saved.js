@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import axios from "../../axios-books";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/bookActions";
+import * as actions from "../../store/actions/booksActions";
 
 import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
@@ -83,9 +83,9 @@ const Saved = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    deleting: state.reducer.deleting,
-    deleteId: state.reducer.deleteId,
-    notification: state.reducer.error,
+    deleting: state.books.deleting,
+    deleteId: state.books.deleteId,
+    notification: state.books.error,
   };
 };
 

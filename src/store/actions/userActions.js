@@ -13,7 +13,10 @@ export const authStart = () => {
 export const authSuccess = (authData) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    payload: authData,
+    payload: {
+      token: authData.idToken,
+      userId: authData.localId,
+    },
   };
 };
 
@@ -24,8 +27,21 @@ export const authFailure = (error) => {
   };
 };
 
+export const authLogout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
+export const checkAuthTimeout = (expirationTime) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(authLogout());
+    }, expirationTime * 1000);
+  };
+};
+
 export const auth = (email, password, loginMode) => {
-  console.log(email, password);
   return (dispatch) => {
     dispatch(authStart());
     const authData = {
@@ -42,10 +58,11 @@ export const auth = (email, password, loginMode) => {
       .then((res) => {
         console.log(res);
         dispatch(authSuccess(res.data));
+        dispatch(checkAuthTimeout(res.data.expiresIn));
       })
       .catch((err) => {
-        console.log(err);
-        dispatch(authFailure);
+        console.log(err.response);
+        dispatch(authFailure(err.response.data.error.message));
       });
   };
 };
