@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Button from "../../formElements/Button";
 import DatePicker from "react-datepicker";
@@ -8,7 +9,7 @@ import classes from "./Book.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Book = (props) => {
-  const { book, click, searching, rate, loadingBookState } = props;
+  const { book, click, searching, rate, loadingBookState, token } = props;
 
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
@@ -70,9 +71,15 @@ const Book = (props) => {
       </div>
       {searching && (
         <div style={{ flexBasis: "161px" }}>
-          <Button click={() => click(book)} disabled={loadingBookState}>
-            {loadingBookState ? <LoadingSpinner /> : "+ add"}
-          </Button>
+          {token ? (
+            <Button click={() => click(book)} disabled={loadingBookState}>
+              {loadingBookState ? <LoadingSpinner /> : "+ add"}
+            </Button>
+          ) : (
+            <Link className={classes.Link} to="login">
+              Login to add
+            </Link>
+          )}
         </div>
       )}
       {rate && (

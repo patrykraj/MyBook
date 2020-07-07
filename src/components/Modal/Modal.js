@@ -38,7 +38,11 @@ const Modal = (props) => {
               <p>{props.show}</p>
               {props.delete && (
                 <>
-                  <Button click={() => props.onDeleteBook(props.deleteId)}>
+                  <Button
+                    click={() =>
+                      props.onDeleteBook(props.deleteId, props.token)
+                    }
+                  >
                     Confirm
                   </Button>
                   <Button click={props.cancelModal}>Cancel</Button>
@@ -60,12 +64,14 @@ const mapStateToProps = (state) => {
   return {
     deleteId: state.books.deleteId,
     loading: state.books.loading,
+    token: state.user.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDeleteBook: (payload) => dispatch(actions.deleteBook(payload)),
+    onDeleteBook: (payload, token) =>
+      dispatch(actions.deleteBook(payload, token)),
   };
 };
 

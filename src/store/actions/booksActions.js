@@ -26,13 +26,13 @@ export const fetchBooksSuccess = (books, query) => {
   };
 };
 
-export const fetchBooks = (payload) => {
+export const fetchBooks = (query) => {
   return async (dispatch) => {
     dispatch(fetchBooksStart());
     axios
-      .get(fetchBooksUrl + payload)
+      .get(fetchBooksUrl + query)
       .then((res) => {
-        dispatch(fetchBooksSuccess(res.data.items, payload));
+        dispatch(fetchBooksSuccess(res.data.items, query));
       })
       .catch((err) => {
         dispatch(fetchBooksFailure(err.message));
@@ -61,10 +61,13 @@ export const addBookFailure = (payload) => {
   };
 };
 
-export const addBook = (payload) => {
+export const addBook = (payload, token) => {
   return async (dispatch) => {
     axios
-      .post("https://mybook-3531d.firebaseio.com/books.json", payload)
+      .post(
+        "https://mybook-3531d.firebaseio.com/books.json?auth=" + token,
+        payload
+      )
       .then((res) => dispatch(addBookSuccess()))
       .catch((err) => dispatch(addBookFailure()));
   };
@@ -99,11 +102,14 @@ export const deleteBookFailure = () => {
   };
 };
 
-export const deleteBook = (payload) => {
+export const deleteBook = (payload, token) => {
   return async (dispatch) => {
     dispatch(deleteBookStart());
     axios
-      .delete(`https://mybook-3531d.firebaseio.com/books/${payload}.json`)
+      .delete(
+        `https://mybook-3531d.firebaseio.com/books/${payload}.json?auth=` +
+          token
+      )
       .then((res) => dispatch(deleteBookSuccess()))
       .catch((err) => dispatch(deleteBookFailure()));
   };

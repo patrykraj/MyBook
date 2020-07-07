@@ -8,24 +8,26 @@ import Search from "./containers/Search/Search";
 import Saved from "./containers/Saved/Saved";
 import Auth from "./containers/Auth/Auth";
 
-function App() {
+import { connect } from "react-redux";
+
+function App({ token }) {
   let routes = (
     <Switch>
       <Route path="/saved" component={Saved} />
-      <Route path="/login" component={Auth} />
       <Route path="/" exact component={Search} />
       <Redirect to="/" />
     </Switch>
   );
 
-  // if (!props.logged) {
-  //   routes = (
-  //     <Switch>
-  //       <Route to="/login" component={Auth} />
-  //       <Redirect to="/login" component={Auth} />
-  //     </Switch>
-  //   );
-  // }
+  if (!token) {
+    routes = (
+      <Switch>
+        <Route path="/" exact component={Search} />
+        <Route path="/login" component={Auth} />
+        <Redirect to="/login" component={Auth} />
+      </Switch>
+    );
+  }
 
   return (
     <Layout>
@@ -34,4 +36,10 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+  };
+};
+
+export default connect(mapStateToProps)(App);

@@ -4,21 +4,36 @@ import { NavLink } from "react-router-dom";
 
 import classes from "./NavigationItems.module.css";
 
-const NavigationItems = () => {
-  const navItems = [
+import { connect } from "react-redux";
+import * as actions from "../../../store/actions/userActions";
+
+const NavigationItems = ({ token, onLogout }) => {
+  let navItems = [
     { to: "/", exact: true, name: "Search" },
     { to: "/saved", name: "My books" },
-    { to: "/login", name: "Login" },
-    // { to: "/", exact: true, name: "Logout" },
+    { to: "/", exact: true, name: "Logout" },
   ];
 
+  if (!token) {
+    navItems = [
+      { to: "/", exact: true, name: "Search" },
+      { to: "/login", name: "Login" },
+    ];
+  }
+
   const links = navItems.map((item) => (
-    <li key={item.name} className={classes.ListElement}>
+    <li
+      key={item.name}
+      className={classes.ListElement}
+      onClick={item.name.toLowerCase() === "logout" ? onLogout : null}
+    >
       <NavLink
         exact={item.exact}
         to={item.to}
         className={classes.Link}
-        activeClassName={classes.ActiveLink}
+        activeClassName={
+          item.name.toLowerCase() === "logout" ? "" : classes.ActiveLink
+        }
       >
         {item.name}
       </NavLink>
@@ -28,4 +43,16 @@ const NavigationItems = () => {
   return <ul className={classes.List}>{links}</ul>;
 };
 
-export default NavigationItems;
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogout: () => dispatch(actions.authLogout()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationItems);

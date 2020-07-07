@@ -50,3 +50,16 @@
 .OptionsDiv > * {
   margin-bottom: 20px;
 }
+
+.Link {
+  float: right;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: bold;
+  color: #ff6700;
+  border-bottom: 2px solid transparent;
+}
+
+.Link:hover {
+  border-bottom: 2px solid #ff6700;
+}

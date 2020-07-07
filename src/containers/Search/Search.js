@@ -18,7 +18,10 @@ const Search = (props) => {
     onAddBook,
     onAddBookFailure,
     onResetError,
+    token,
   } = props;
+
+  console.log(token);
 
   const handleAddBook = async (data) => {
     props.onAddBookStart(data.id);
@@ -31,7 +34,7 @@ const Search = (props) => {
 
     try {
       let res = await axios
-        .get("/books.json")
+        .get("/books.json?auth=" + token)
         .catch((err) => onAddBookFailure());
       booksOnList = await res.data;
 
@@ -44,7 +47,7 @@ const Search = (props) => {
     }
 
     if (bookIsValid) {
-      return onAddBook(data);
+      return onAddBook(data, token);
     } else {
       return onAddBookFailure("Book's already in the list.");
     }
@@ -79,6 +82,7 @@ const Search = (props) => {
           loadingBookState={props.loadingBookState}
           click={handleAddBook}
           search
+          token={token}
         />
       )}
       {!searchedQuery && <MainHeader center>Start searching</MainHeader>}
@@ -93,13 +97,14 @@ const mapStateToProps = (state) => {
     books: state.books.books,
     searchedQuery: state.books.query,
     loadingBookState: state.books.loadingBookState,
+    token: state.user.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddBookStart: (payload) => dispatch(actions.addBookStart(payload)),
-    onAddBook: (payload) => dispatch(actions.addBook(payload)),
+    onAddBook: (payload, token) => dispatch(actions.addBook(payload, token)),
     onAddBookFailure: (payload) => dispatch(actions.addBookFailure(payload)),
     onResetError: () => dispatch(actions.resetError()),
   };

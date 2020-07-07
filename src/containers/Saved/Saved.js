@@ -10,7 +10,7 @@ import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/Loader/Loader";
 
 const Saved = (props) => {
-  const { onConfirmDeleteBook, deleting } = props;
+  const { onConfirmDeleteBook, deleting, token } = props;
 
   const [loading, setLoading] = useState(true);
   const [myBooks, setMyBooks] = useState([]);
@@ -29,7 +29,7 @@ const Saved = (props) => {
     if (deleting === true) return;
     setLoading(true);
     axios
-      .get("/books.json")
+      .get("/books.json?auth=" + token)
       .then((books) => {
         const fetchedBooks = [];
 
@@ -45,7 +45,7 @@ const Saved = (props) => {
         setLoading(false);
         setError(`Something went wrong: ${err.message}`);
       });
-  }, [deleting]);
+  }, [deleting, token]);
 
   let content;
   if (loading) {
@@ -86,6 +86,7 @@ const mapStateToProps = (state) => {
     deleting: state.books.deleting,
     deleteId: state.books.deleteId,
     notification: state.books.error,
+    token: state.user.token,
   };
 };
 
