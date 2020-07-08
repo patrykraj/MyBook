@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -9,8 +9,13 @@ import Saved from "./containers/Saved/Saved";
 import Auth from "./containers/Auth/Auth";
 
 import { connect } from "react-redux";
+import * as actions from "./store/actions";
 
-function App({ token }) {
+function App({ isAuth, onTryAutoSignUp }) {
+  useEffect(() => {
+    onTryAutoSignUp();
+  }, [onTryAutoSignUp]);
+
   let routes = (
     <Switch>
       <Route path="/saved" component={Saved} />
@@ -19,7 +24,7 @@ function App({ token }) {
     </Switch>
   );
 
-  if (!token) {
+  if (!isAuth) {
     routes = (
       <Switch>
         <Route path="/" exact component={Search} />
@@ -38,8 +43,14 @@ function App({ token }) {
 
 const mapStateToProps = (state) => {
   return {
-    token: state.user.token,
+    isAuth: state.user.token !== null,
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTryAutoSignUp: () => dispatch(actions.authCheckState()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -6,7 +6,7 @@ import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/Loader/Loader";
 import axios from "../../axios-books";
-import * as actions from "../../store/actions/booksActions";
+import * as actions from "../../store/actions";
 
 import classes from "./Search.module.css";
 
@@ -20,8 +20,6 @@ const Search = (props) => {
     onResetError,
     token,
   } = props;
-
-  console.log(token);
 
   const handleAddBook = async (data) => {
     props.onAddBookStart(data.id);
@@ -82,7 +80,7 @@ const Search = (props) => {
           loadingBookState={props.loadingBookState}
           click={handleAddBook}
           search
-          token={token}
+          isAuthenticated={token !== null}
         />
       )}
       {!searchedQuery && <MainHeader center>Start searching</MainHeader>}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import axios from "../../axios-books";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/booksActions";
+import * as actions from "../../store/actions";
 
 import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";

@@ -9,7 +9,14 @@ import classes from "./Book.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Book = (props) => {
-  const { book, click, searching, rate, loadingBookState, token } = props;
+  const {
+    book,
+    click,
+    searching,
+    rate,
+    loadingBookState,
+    isAuthenticated,
+  } = props;
 
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
@@ -71,7 +78,7 @@ const Book = (props) => {
       </div>
       {searching && (
         <div style={{ flexBasis: "161px" }}>
-          {token ? (
+          {isAuthenticated ? (
             <Button click={() => click(book)} disabled={loadingBookState}>
               {loadingBookState ? <LoadingSpinner /> : "+ add"}
             </Button>

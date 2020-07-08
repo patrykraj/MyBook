@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/userActions";
+import * as actions from "../../store/actions";
 
 import Button from "../../components/formElements/Button";
 import Input from "../../components/formElements/Input";
