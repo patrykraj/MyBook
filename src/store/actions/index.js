@@ -12,6 +12,7 @@ export {
   deleteBookFailure,
   deleteBookSuccess,
   deleteBook,
+  updateBook,
   resetError,
 } from "./booksActions";
 

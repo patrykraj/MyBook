@@ -15,6 +15,7 @@ const Book = (props) => {
     searching,
     rate,
     loadingBookState,
+    loadingUpdate,
     isAuthenticated,
   } = props;
 
@@ -27,18 +28,25 @@ const Book = (props) => {
     setValue(val);
   };
 
+  const handleUpdate = () => {
+    setTouched(false);
+    props.updateBook(book.query, value, startDate);
+  };
+
   let selectedOption;
   switch (book.selectedOption) {
     case "1":
-      selectedOption = "Want to buy this book.";
+      selectedOption = "Want to buy.";
       break;
     case "2":
-      selectedOption = `Read this book on ${book.dateRead}.`;
+      selectedOption = `Book read on: ${book.dateRead}.`;
       break;
     default:
       selectedOption = "It's in your bookshelf.";
       break;
   }
+
+  console.log(book);
 
   return (
     <li className={classes.BookListElement}>
@@ -64,6 +72,19 @@ const Book = (props) => {
             ? book.volumeInfo.publishedDate
             : "N/D"}
         </p>
+        {searching && (
+          <div style={{ flexBasis: "161px" }}>
+            {isAuthenticated ? (
+              <Button click={() => click(book)} disabled={loadingBookState}>
+                {loadingBookState ? <LoadingSpinner /> : "+ add"}
+              </Button>
+            ) : (
+              <Link className={classes.Link} to="login">
+                Login to add
+              </Link>
+            )}
+          </div>
+        )}
         {rate && <p>{selectedOption}</p>}
         {rate && touched && value === "2" && (
           <>
@@ -76,19 +97,6 @@ const Book = (props) => {
           </>
         )}
       </div>
-      {searching && (
-        <div style={{ flexBasis: "161px" }}>
-          {isAuthenticated ? (
-            <Button click={() => click(book)} disabled={loadingBookState}>
-              {loadingBookState ? <LoadingSpinner /> : "+ add"}
-            </Button>
-          ) : (
-            <Link className={classes.Link} to="login">
-              Login to add
-            </Link>
-          )}
-        </div>
-      )}
       {rate && (
         <div
           className={classes.OptionsDiv}
@@ -99,12 +107,16 @@ const Book = (props) => {
           <Button delete click={() => props.click(book.query)}>
             Delete
           </Button>
-          <select onChange={(e) => handleValue(e.target.value)}>
+          <select
+            defaultValue={book.selectedOption}
+            onChange={(e) => handleValue(e.target.value)}
+          >
             <option value={0}>I have it</option>
             <option value={1}>Want to buy</option>
             <option value={2}>Read</option>
           </select>
-          {touched ? <Button click={() => {}}>Save</Button> : <span></span>}
+          {touched && <Button click={handleUpdate}>Save</Button>}
+          {loadingUpdate && <LoadingSpinner />}
         </div>
       )}
     </li>

@@ -10,7 +10,14 @@ import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/Loader/Loader";
 
 const Saved = (props) => {
-  const { onConfirmDeleteBook, deleting, token, userId } = props;
+  const {
+    onConfirmDeleteBook,
+    onUpdateBook,
+    updating,
+    token,
+    userId,
+    loadingUpdate,
+  } = props;
 
   const [loading, setLoading] = useState(true);
   const [myBooks, setMyBooks] = useState([]);
@@ -25,8 +32,18 @@ const Saved = (props) => {
     props.onResetError();
   };
 
+  const updateBook = (query, val, date) => {
+    const payload = {
+      query,
+      selectedOption: val,
+      dateRead: val === "2" ? date.toLocaleDateString() : "n/d",
+    };
+
+    onUpdateBook(payload, token);
+  };
+
   useEffect(() => {
-    if (deleting === true) return;
+    if (updating === true) return;
     const queryParams =
       "?auth=" + token + `&orderBy="userId"&equalTo="${userId}"`;
 
@@ -48,7 +65,7 @@ const Saved = (props) => {
         setLoading(false);
         setError(`Something went wrong: ${err.message}`);
       });
-  }, [deleting, token, userId]);
+  }, [updating, token, userId]);
 
   let content;
   if (loading) {
@@ -64,7 +81,13 @@ const Saved = (props) => {
           delete={props.deleteId}
         />
         <MainHeader>Bookshelf:</MainHeader>
-        <Books loadedBooks={myBooks} click={deleteBook} rate />
+        <Books
+          loadedBooks={myBooks}
+          click={deleteBook}
+          updateBook={updateBook}
+          loadingUpdate={loadingUpdate}
+          rate
+        />
       </>
     );
 
@@ -86,11 +109,12 @@ const Saved = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    deleting: state.books.deleting,
+    updating: state.books.updating,
     deleteId: state.books.deleteId,
     notification: state.books.error,
     token: state.user.token,
     userId: state.user.userId,
+    loadingUpdate: state.books.loadingUpdate,
   };
 };
 
@@ -99,6 +123,8 @@ const mapDispatchToProps = (dispatch) => {
     onResetError: () => dispatch(actions.resetError()),
     onConfirmDeleteBook: (payload) =>
       dispatch(actions.confirmDeleteBook(payload)),
+    onUpdateBook: (payload, token) =>
+      dispatch(actions.updateBook(payload, token)),
   };
 };
 

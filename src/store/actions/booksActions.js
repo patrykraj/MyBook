@@ -115,6 +115,43 @@ export const deleteBook = (payload, token) => {
   };
 };
 
+export const updateBookStart = (query) => {
+  return {
+    type: actionTypes.UPDATE_BOOK_START,
+    payload: query,
+  };
+};
+
+export const updateBookSuccess = () => {
+  return {
+    type: actionTypes.UPDATE_BOOK_SUCCESS,
+  };
+};
+
+export const updateBookFailure = () => {
+  return {
+    type: actionTypes.UPDATE_BOOK_FAILURE,
+    payload: "Something went wrong. Try again.",
+  };
+};
+
+export const updateBook = (payload, token) => {
+  return async (dispatch) => {
+    dispatch(updateBookStart(payload.query));
+    axios
+      .patch(
+        `https://mybook-3531d.firebaseio.com/books/${payload.query}.json?auth=` +
+          token,
+        {
+          selectedOption: payload.selectedOption,
+          dateRead: payload.selectedOption === "2" ? payload.dateRead : "n/d",
+        }
+      )
+      .then((res) => dispatch(updateBookSuccess()))
+      .catch((err) => dispatch(updateBookFailure()));
+  };
+};
+
 export const resetError = () => {
   return {
     type: actionTypes.RESET_ERROR,

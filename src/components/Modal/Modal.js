@@ -13,8 +13,14 @@ import classes from "./Modal.module.css";
 const Modal = (props) => {
   let content = (
     <>
-      <Backdrop cancel={props.cancelModal} />
-      <div className={classes.Modal}>
+      {props.show && <Backdrop cancel={props.cancelModal} />}
+      <div
+        className={classes.Modal}
+        style={{
+          transform: props.show ? "translateY(-50px)" : "translateY(-100vh)",
+          opacity: props.show ? "1" : "0",
+        }}
+      >
         {props.loading ? (
           <LoadingSpinner modal />
         ) : (
@@ -55,7 +61,7 @@ const Modal = (props) => {
     </>
   );
 
-  if (!props.show) content = null;
+  // if (!props.show) content = null;
 
   return ReactDOM.createPortal(content, document.getElementById("modal"));
 };

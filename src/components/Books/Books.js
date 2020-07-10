@@ -17,6 +17,8 @@ const Books = (props) => {
             rate={props.rate}
             loadingBookState={props.loadingBookState === book.id}
             isAuthenticated={props.isAuthenticated}
+            updateBook={props.updateBook}
+            loadingUpdate={props.loadingUpdate === book.query}
           />
         ))}
     </ul>
