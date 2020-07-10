@@ -19,36 +19,37 @@ const Search = (props) => {
     onAddBookFailure,
     onResetError,
     token,
+    userId,
   } = props;
 
   const handleAddBook = async (data) => {
     props.onAddBookStart(data.id);
     let booksOnList = [];
     let bookIsValid = true;
+    const queryParams =
+      "?auth=" + token + `&orderBy="userId"&equalTo="${userId}"`;
     data = {
       ...data,
+      userId,
       dateAdded: new Date().toLocaleDateString(),
     };
 
-    try {
-      let res = await axios
-        .get("/books.json?auth=" + token)
-        .catch((err) => onAddBookFailure());
-      booksOnList = await res.data;
+    axios
+      .get("/books.json" + queryParams)
+      .then((res) => (booksOnList = res.data))
+      .then((res) => {
+        for (const [key, val] of Object.entries(booksOnList)) {
+          if (val.id === data.id) bookIsValid = false;
+          console.log(key);
+        }
 
-      for (const [key, val] of Object.entries(booksOnList)) {
-        if (val.id === data.id) bookIsValid = false;
-        console.log(key);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-    if (bookIsValid) {
-      return onAddBook(data, token);
-    } else {
-      return onAddBookFailure("Book's already in the list.");
-    }
+        if (bookIsValid) {
+          onAddBook(data, token);
+        } else {
+          onAddBookFailure("Book's already in the list.");
+        }
+      })
+      .catch((err) => onAddBookFailure());
   };
 
   const handleNotifications = () => {
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => {
     searchedQuery: state.books.query,
     loadingBookState: state.books.loadingBookState,
     token: state.user.token,
+    userId: state.user.userId,
   };
 };
 

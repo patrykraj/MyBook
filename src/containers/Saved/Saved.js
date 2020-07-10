@@ -10,7 +10,7 @@ import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/Loader/Loader";
 
 const Saved = (props) => {
-  const { onConfirmDeleteBook, deleting, token } = props;
+  const { onConfirmDeleteBook, deleting, token, userId } = props;
 
   const [loading, setLoading] = useState(true);
   const [myBooks, setMyBooks] = useState([]);
@@ -27,9 +27,12 @@ const Saved = (props) => {
 
   useEffect(() => {
     if (deleting === true) return;
+    const queryParams =
+      "?auth=" + token + `&orderBy="userId"&equalTo="${userId}"`;
+
     setLoading(true);
     axios
-      .get("/books.json?auth=" + token)
+      .get("/books.json" + queryParams)
       .then((books) => {
         const fetchedBooks = [];
 
@@ -45,7 +48,7 @@ const Saved = (props) => {
         setLoading(false);
         setError(`Something went wrong: ${err.message}`);
       });
-  }, [deleting, token]);
+  }, [deleting, token, userId]);
 
   let content;
   if (loading) {
@@ -87,6 +90,7 @@ const mapStateToProps = (state) => {
     deleteId: state.books.deleteId,
     notification: state.books.error,
     token: state.user.token,
+    userId: state.user.userId,
   };
 };
 
