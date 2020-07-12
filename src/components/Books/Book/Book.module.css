@@ -12,13 +12,17 @@
   margin-bottom: 2rem;
 }
 
-.BookImageWrapper {
-  flex: 1;
+.BookInfoWrapper {
+  display: flex;
+}
+
+.BookInfoWrapper > * {
+  margin: 0 7px;
 }
 
 .BookDescriptionWrapper {
   color: rgba(0, 0, 0, 0.8);
-  flex: 4;
+  flex-grow: 1;
 }
 
 .BookDescriptionWrapper p:first-of-type {
@@ -40,7 +44,7 @@
 }
 
 .BookListElement > * {
-  margin: 0 10px;
+  margin: 0 7px;
 }
 
 .OptionsDiv {
@@ -49,6 +53,15 @@
 
 .OptionsDiv > * {
   margin-bottom: 20px;
+}
+
+.ButtonsWrapper {
+  max-width: 150px;
+  min-width: 150px;
+}
+
+.ButtonsWrapper > button:nth-child(2) {
+  margin: 10px 0;
 }
 
 .Link {
@@ -62,4 +75,26 @@
 
 .Link:hover {
   border-bottom: 2px solid #ff6700;
+}
+
+@media (max-width: 500px) {
+  .BookListElement {
+    display: block;
+  }
+
+  .ButtonsWrapper {
+    display: block;
+    margin: 15px auto;
+  }
+
+  .BookListElement > * {
+    margin: 0 auto 10px;
+  }
+}
+
+@media (max-width: 450px) {
+  .BookListElement img {
+    width: 90px;
+    height: 150px;
+  }
 }

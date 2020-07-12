@@ -60,7 +60,6 @@ export const auth = (email, password, loginMode) => {
     axios
       .post(url + "AIzaSyDJrEk8HJJQUdagjMk7GVK77lEd3WkrDQw", authData)
       .then((res) => {
-        // console.log(res);
         const expirationDate = new Date(
           new Date().getTime() + res.data.expiresIn * 1000
         );
@@ -72,7 +71,6 @@ export const auth = (email, password, loginMode) => {
         dispatch(checkAuthTimeout(res.data.expiresIn));
       })
       .catch((err) => {
-        // console.log(err.response);
         dispatch(authFailure(err.response.data.error.message));
       });
   };

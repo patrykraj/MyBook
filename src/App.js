@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import "./App.css";
 
-import { Switch, Route, Redirect } from "react-router-dom";
-
 import Layout from "./containers/Layout/Layout";
 import Search from "./containers/Search/Search";
 import Saved from "./containers/Saved/Saved";
 import Auth from "./containers/Auth/Auth";
 
+import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "./store/actions";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 function App({ isAuth, onTryAutoSignUp }) {
   useEffect(() => {

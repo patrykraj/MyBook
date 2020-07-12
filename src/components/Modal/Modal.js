@@ -61,8 +61,6 @@ const Modal = (props) => {
     </>
   );
 
-  // if (!props.show) content = null;
-
   return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 

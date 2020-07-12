@@ -6,6 +6,7 @@ import classes from "./NavigationItems.module.css";
 
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions/userActions";
+import { toast } from "react-toastify";
 
 const NavigationItems = ({ token, onLogout }) => {
   let navItems = [
@@ -21,11 +22,18 @@ const NavigationItems = ({ token, onLogout }) => {
     ];
   }
 
+  const handleLogout = (item) => {
+    if (item.name.toLowerCase() === "logout") {
+      onLogout();
+      toast.info("You've been logged out.");
+    }
+  };
+
   const links = navItems.map((item) => (
     <li
       key={item.name}
       className={classes.ListElement}
-      onClick={item.name.toLowerCase() === "logout" ? onLogout : null}
+      onClick={() => handleLogout(item)}
     >
       <NavLink
         exact={item.exact}

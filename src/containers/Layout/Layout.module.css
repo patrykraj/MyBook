@@ -14,8 +14,11 @@
   margin: 0 auto;
   max-width: 1200px;
   min-height: 100vh;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
   position: relative;
+}
+
+@media (max-width: 500px) {
+  .Main {
+    padding: 82px 8px 0;
+  }
 }

@@ -42,3 +42,9 @@ button.FormElement:hover svg {
 .FormElement:focus {
   outline: none;
 }
+
+@media (max-width: 400px) {
+  input.FormElement {
+    padding: 1rem;
+  }
+}
