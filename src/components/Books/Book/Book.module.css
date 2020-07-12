@@ -83,8 +83,8 @@
   }
 
   .ButtonsWrapper {
-    display: block;
     margin: 15px auto;
+    padding: 1rem 0;
   }
 
   .BookListElement > * {
