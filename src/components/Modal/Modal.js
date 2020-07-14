@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import Backdrop from "./Backdrop";
 import Button from "../formElements/Button";
-import LoadingSpinner from "../Loader/LoadingSpinner";
+import LoadingSpinner from "../UI/Loader/LoadingSpinner";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
@@ -24,7 +24,7 @@ const Modal = (props) => {
         }}
       >
         {props.loading ? (
-          <LoadingSpinner modal />
+          <LoadingSpinner padding />
         ) : (
           <>
             <div className={classes.ModalTop}>

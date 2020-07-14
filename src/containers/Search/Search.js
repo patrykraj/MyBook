@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/UI/Loader/Loader";
 import axios from "../../axios-books";
 import * as actions from "../../store/actions";
 
@@ -40,7 +40,6 @@ const Search = (props) => {
       .then((res) => {
         for (const [key, val] of Object.entries(booksOnList)) {
           if (val.id === data.id) bookIsValid = false;
-          console.log(key);
         }
 
         if (bookIsValid) {

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Button from "../../formElements/Button";
 import DatePicker from "react-datepicker";
-import LoadingSpinner from "../../Loader/LoadingSpinner";
+import LoadingSpinner from "../../UI/Loader/LoadingSpinner";
 
 import classes from "./Book.module.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -103,7 +103,7 @@ const Book = (props) => {
             Delete
           </Button>
           {touched ? <Button click={handleUpdate}>Save</Button> : <span></span>}
-          {loadingUpdate && <LoadingSpinner />}
+          {loadingUpdate && <LoadingSpinner padding />}
         </div>
       )}
       {searching && (

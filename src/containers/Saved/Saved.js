@@ -7,7 +7,7 @@ import * as actions from "../../store/actions";
 import Books from "../../components/Books/Books";
 import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/UI/Loader/Loader";
 
 const Saved = (props) => {
   const {

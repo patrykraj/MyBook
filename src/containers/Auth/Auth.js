@@ -5,7 +5,7 @@ import * as actions from "../../store/actions";
 
 import Button from "../../components/formElements/Button";
 import Input from "../../components/formElements/Input";
-import LoadingSpinner from "../../components/Loader/LoadingSpinner";
+import LoadingSpinner from "../../components/UI/Loader/LoadingSpinner";
 import MainHeader from "../../components/MainHeader/MainHeader";
 
 import classes from "./Auth.module.css";
