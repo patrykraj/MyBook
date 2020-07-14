@@ -38,7 +38,7 @@ const Search = (props) => {
       .get("/books.json" + queryParams)
       .then((res) => (booksOnList = res.data))
       .then((res) => {
-        for (const [key, val] of Object.entries(booksOnList)) {
+        for (const [, val] of Object.entries(booksOnList)) {
           if (val.id === data.id) bookIsValid = false;
         }
 
