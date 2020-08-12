@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions/userActions";
 import { toast } from "react-toastify";
 
-const NavigationItems = ({ token, onLogout }) => {
+export const NavigationItems = ({ token, onLogout }) => {
   let navItems = [
     { to: "/", exact: true, name: "Search" },
     { to: "/saved", name: "My books" },
