@@ -10,7 +10,7 @@ import MainHeader from "../../components/MainHeader/MainHeader";
 
 import classes from "./Auth.module.css";
 
-const Auth = ({ onAuth, error, loading }) => {
+export const Auth = ({ onAuth, error, loading }) => {
   const [loginMode, setLoginMode] = useState(true);
   const [invalidData, setInvalidData] = useState([]);
 

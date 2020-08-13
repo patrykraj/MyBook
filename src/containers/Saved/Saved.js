@@ -9,16 +9,17 @@ import Modal from "../../components/Modal/Modal";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import Loader from "../../components/UI/Loader/Loader";
 
-const Saved = (props) => {
-  const {
-    onConfirmDeleteBook,
-    onUpdateBook,
-    updating,
-    token,
-    userId,
-    loadingUpdate,
-  } = props;
-
+export const Saved = ({
+  onConfirmDeleteBook,
+  onUpdateBook,
+  onResetError,
+  updating,
+  notification,
+  token,
+  userId,
+  deleteId,
+  loadingUpdate,
+}) => {
   const [loading, setLoading] = useState(true);
   const [myBooks, setMyBooks] = useState([]);
   const [error, setError] = useState(null);
@@ -29,7 +30,7 @@ const Saved = (props) => {
 
   const handleNotifications = () => {
     if (error) return setError(null);
-    props.onResetError();
+    onResetError();
   };
 
   const updateBook = (query, val, date) => {
@@ -76,9 +77,9 @@ const Saved = (props) => {
     content = (
       <>
         <Modal
-          show={error || props.notification}
+          show={error || notification}
           cancelModal={handleNotifications}
-          delete={props.deleteId}
+          delete={deleteId}
         />
         <MainHeader>Bookshelf:</MainHeader>
         <Books
