@@ -10,20 +10,21 @@ import * as actions from "../../store/actions";
 
 import classes from "./Search.module.css";
 
-const Search = (props) => {
-  const {
-    books,
-    loading,
-    searchedQuery,
-    onAddBook,
-    onAddBookFailure,
-    onResetError,
-    token,
-    userId,
-  } = props;
-
+export const Search = ({
+  books,
+  loading,
+  searchedQuery,
+  onAddBook,
+  onAddBookStart,
+  onAddBookFailure,
+  onResetError,
+  token,
+  userId,
+  error,
+  loadingBookState,
+}) => {
   const handleAddBook = async (data) => {
-    props.onAddBookStart(data.id);
+    onAddBookStart(data.id);
     let booksOnList = [];
     let bookIsValid = true;
     const queryParams =
@@ -55,7 +56,8 @@ const Search = (props) => {
     onResetError();
   };
 
-  const transformedQuery = searchedQuery.split("+").join(" ");
+  let transformedQuery;
+  if (searchedQuery) transformedQuery = searchedQuery.split("+").join(" ");
 
   if (loading)
     return (
@@ -66,9 +68,11 @@ const Search = (props) => {
 
   return (
     <div
-      className={books.length && !loading ? "container--filled" : "container"}
+      className={
+        books && books.length && !loading ? "container--filled" : "container"
+      }
     >
-      <Modal show={props.error} cancelModal={handleNotifications} />
+      <Modal show={error} cancelModal={handleNotifications} />
       {books && books.length > 0 && (
         <MainHeader>"{transformedQuery}" books:</MainHeader>
       )}
@@ -77,7 +81,7 @@ const Search = (props) => {
       ) : (
         <Books
           loadedBooks={books}
-          loadingBookState={props.loadingBookState}
+          loadingBookState={loadingBookState}
           click={handleAddBook}
           search
           isAuthenticated={token !== null}
