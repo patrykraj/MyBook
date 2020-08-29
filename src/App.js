@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import "./App.css";
 
-import Layout from "./containers/Layout/Layout";
-import Search from "./containers/Search/Search";
-import Saved from "./containers/Saved/Saved";
-import Auth from "./containers/Auth/Auth";
+import Layout from "./containers/Layout/Layout.jsx";
+import Search from "./containers/Search/Search.jsx";
+import Saved from "./containers/Saved/Saved.jsx";
+import Auth from "./containers/Auth/Auth.jsx";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
